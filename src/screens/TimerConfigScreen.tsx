@@ -249,6 +249,13 @@ interface ConfigRowProps
 
 function ConfigRow({ label, value, onChange, min, max }: ConfigRowProps): React.JSX.Element
 {
+    const [szInputValue, setInputValue] = useState<string>(value.toString());
+
+    useEffect(() =>
+    {
+        setInputValue(value.toString());
+    }, [value]);
+
     const handleDecrement = (): void =>
     {
         if (value > min)
@@ -265,6 +272,34 @@ function ConfigRow({ label, value, onChange, min, max }: ConfigRowProps): React.
         }
     };
 
+    const handleTextChange = (szText: string): void =>
+    {
+        const szFiltered = szText.replace(/[^0-9]/g, '');
+        setInputValue(szFiltered);
+    };
+
+    const handleBlur = (): void =>
+    {
+        let nValue = parseInt(szInputValue, 10);
+
+        if (isNaN(nValue) || szInputValue === '')
+        {
+            nValue = min;
+        }
+
+        if (nValue < min)
+        {
+            nValue = min;
+        }
+        else if (nValue > max)
+        {
+            nValue = max;
+        }
+
+        setInputValue(nValue.toString());
+        onChange(nValue);
+    };
+
     return (
         <View style={styles.configRow}>
             <Text style={styles.configLabel}>{label}</Text>
@@ -276,7 +311,18 @@ function ConfigRow({ label, value, onChange, min, max }: ConfigRowProps): React.
                 >
                     <Text style={styles.controlButtonText}>-</Text>
                 </TouchableOpacity>
-                <Text style={styles.configValue}>{value}</Text>
+                <TextInput
+                    style={styles.configValueInput}
+                    value={szInputValue}
+                    onChangeText={handleTextChange}
+                    onBlur={handleBlur}
+                    onSubmitEditing={handleBlur}
+                    keyboardType="number-pad"
+                    selectTextOnFocus={true}
+                    maxLength={3}
+                    editable={true}
+                    returnKeyType="done"
+                />
                 <TouchableOpacity
                     style={[styles.controlButton, value >= max && styles.controlButtonDisabled]}
                     onPress={handleIncrement}
@@ -363,6 +409,19 @@ const styles = StyleSheet.create({
         color: colors.text,
         minWidth: 60,
         textAlign: 'center',
+    },
+    configValueInput: {
+        fontSize: 24,
+        fontWeight: '700',
+        color: colors.text,
+        minWidth: 64,
+        height: 44,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        backgroundColor: colors.surfaceLight,
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        marginHorizontal: 8,
     },
     startButton: {
         backgroundColor: colors.primary,

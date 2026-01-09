@@ -11,7 +11,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import { colors } from '../constants/colors';
 import { useAppStore } from '../store';
 import { formatTimeMMSS, formatTimeReadable } from '../utils/formatTime';
@@ -28,7 +28,7 @@ export default function ResultScreen(): React.JSX.Element
     const handleDone = (): void =>
     {
         resetTimer();
-        navigation.navigate('Home');
+        navigation.dispatch(StackActions.popToTop());
     };
 
     const handleRepeat = (): void =>

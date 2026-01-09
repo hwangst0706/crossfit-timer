@@ -9,9 +9,6 @@ import { useAppStore } from '../store';
 
 type AlertType = 'beep' | 'countdown' | 'finish' | 'work' | 'rest';
 
-let m_bSoundsLoaded = false;
-let m_stBeepSound: Audio.Sound | null = null;
-
 /**
  * @brief 오디오 설정 초기화
  */
@@ -73,10 +70,10 @@ async function playSound(type: AlertType): Promise<void>
     try
     {
         const soundFile = SOUND_FILES[type] || SOUND_FILES.beep;
-        const { sound } = await Audio.Sound.createAsync(
-            soundFile,
-            { shouldPlay: true, volume: getVolumeForType(type) }
-        );
+        const { sound } = await Audio.Sound.createAsync(soundFile);
+
+        await sound.setVolumeAsync(getVolumeForType(type));
+        await sound.playAsync();
 
         sound.setOnPlaybackStatusUpdate((status) =>
         {
