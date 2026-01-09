@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "CrossFit Timer",
+    "slug": "crossfit-timer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0D0D0D"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.crossfit.timer"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0D0D0D"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.crossfit.timer",
+      "permissions": [
+        "VIBRATE",
+        "WAKE_LOCK",
+        "FOREGROUND_SERVICE",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-av",
+      "expo-notifications"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f7515296-3810-4bf3-bb8c-3a44cc83de20"
+      }
+    }
+  }
+}
